@@ -42,6 +42,8 @@ O SAP não oferece solução nativa para receber faturas no Brasil na edição P
 
 ![Painel](docs/painel_indicadores.png)
 
+**[Ver a demonstração interativa](https://joao-2003.github.io/sap-pipefy-invoice-automation/)**: o painel de lançamentos e o monitor de compras rodando no navegador com dados fictícios. As páginas são geradas por `tools/gerar_demo_pages.py`, que renderiza o mesmo HTML dos apps Flask trocando o Pipefy e o SAP por dados inventados.
+
 ## Estrutura
 
 ```

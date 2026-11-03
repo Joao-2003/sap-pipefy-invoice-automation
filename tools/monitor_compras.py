@@ -26,8 +26,8 @@ BASE_PO_URL = SAP_BASE_URL.rstrip("/") + "/sap/opu/odata/sap/API_PURCHASEORDER_P
 # ==============================================================================
 
 MAPA_USUARIOS_MANUAL = {
-    "CB998877": "João Lima",
-    "CB112233": "Tarley",
+    "CB998877": "Comprador Exemplo 1",
+    "CB112233": "Comprador Exemplo 2",
     # Adicione os outros compradores aqui...
 }
 

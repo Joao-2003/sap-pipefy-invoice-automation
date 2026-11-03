@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automação de notas fiscais · demonstração</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0c1810;color:#dff0e4;font:14px/1.6 'JetBrains Mono',monospace}
+main{max-width:880px;margin:0 auto;padding:48px 20px}
+h1{font:600 30px 'Playfair Display',Georgia,serif;margin:0 0 8px}
+p{color:#8aab94}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:28px}
+a.card{display:block;background:#141f17;border:1px solid #253828;border-radius:12px;padding:20px;color:inherit;text-decoration:none}
+a.card:hover{border-color:#3ecf6e}
+a.card b{color:#3ecf6e;font-size:16px}
+img{width:100%;border-radius:8px;margin-top:12px;border:1px solid #1d2f20}
+</style></head><body><main>
+<h1>Automação de notas fiscais · SAP + Pipefy</h1>
+<p>Demonstração dos painéis do projeto com <b>dados fictícios</b>. Na versão real, os dados vêm ao vivo do Pipefy e do SAP S/4HANA.
+Código e documentação: <a href="https://github.com/Joao-2003/sap-pipefy-invoice-automation" style="color:#5ba4cf">https://github.com/Joao-2003/sap-pipefy-invoice-automation</a></p>
+<div class="grid">
+<a class="card" href="painel-lancamentos.html"><b>Painel de lançamentos</b><br>Taxa de sucesso da automação, motivos de falha por área responsável, histórico de erros e cards pendentes.<img src="painel_indicadores.png" alt=""></a>
+<a class="card" href="monitor-compras.html"><b>Monitor de compras</b><br>Pedidos do SAP por condição de pagamento, com drill-down por comprador e fornecedor.</a>
+</div></main></body></html>
