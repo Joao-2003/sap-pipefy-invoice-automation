@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lançamento de NF</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 2rem 1rem; }
+.app { width: 100%; max-width: 680px; }
+.header { text-align: center; margin-bottom: 2rem; }
+.header h1 { font-size: 22px; font-weight: 500; color: #1a1a1a; }
+.header p  { font-size: 14px; color: #666; margin-top: 4px; }
+.card { background: #fff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+.card-title { font-size: 13px; font-weight: 500; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+label { display: block; font-size: 13px; color: #555; margin-bottom: 4px; margin-top: 12px; }
+label:first-of-type { margin-top: 0; }
+input, select { width: 100%; padding: 8px 10px; border: 0.5px solid rgba(0,0,0,0.2); border-radius: 8px; font-size: 14px; color: #1a1a1a; background: #fff; outline: none; }
+input:focus, select:focus { border-color: #185FA5; box-shadow: 0 0 0 3px rgba(24,95,165,0.1); }
+input[readonly] { background: #f9f9f7; color: #555; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.upload-zone { border: 1.5px dashed rgba(0,0,0,0.2); border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.15s; }
+.upload-zone:hover  { border-color: #185FA5; background: #f0f7ff; }
+.upload-zone.has-file { border-color: #3B6D11; background: #f4f9ee; border-style: solid; }
+.upload-zone i { font-size: 28px; color: #aaa; display: block; margin-bottom: 8px; }
+.upload-zone.has-file i { color: #3B6D11; }
+.upload-zone p { font-size: 14px; color: #666; }
+.upload-zone.has-file p { color: #3B6D11; font-weight: 500; }
+.upload-zone small { font-size: 12px; color: #aaa; display: block; margin-top: 4px; }
+.fin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+.fin-opt { border: 0.5px solid rgba(0,0,0,0.15); border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: flex-start; gap: 10px; }
+.fin-opt:hover { border-color: #185FA5; background: #f0f7ff; }
+.fin-opt.sel { border: 2px solid #185FA5; background: #f0f7ff; }
+.fin-opt i { font-size: 20px; color: #888; margin-top: 1px; flex-shrink: 0; }
+.fin-opt.sel i { color: #185FA5; }
+.fin-label { font-size: 13px; font-weight: 500; color: #1a1a1a; }
+.fin-desc  { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.4; }
+.fin-opt.sel .fin-label { color: #185FA5; }
+.badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+.badge-nfe  { background: #E6F1FB; color: #185FA5; }
+.badge-cte  { background: #FAEEDA; color: #633806; }
+.badge-nfse { background: #EAF3DE; color: #27500A; }
+.extracted { background: #f9f9f7; border: 0.5px solid rgba(0,0,0,0.1); border-radius: 8px; padding: 12px 14px; }
+.extracted-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 0.5px solid rgba(0,0,0,0.06); font-size: 13px; }
+.extracted-row:last-child { border-bottom: none; }
+.extracted-row span:first-child { color: #888; flex-shrink: 0; margin-right: 12px; }
+.extracted-row span:last-child { font-weight: 500; color: #1a1a1a; text-align: right; }
+.btn-primary { width: 100%; padding: 13px; background: #185FA5; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: background 0.15s; }
+.btn-primary:hover { background: #0C447C; }
+.btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+.btn-secondary { width: 100%; padding: 10px; background: transparent; color: #555; border: 0.5px solid rgba(0,0,0,0.2); border-radius: 10px; font-size: 14px; cursor: pointer; margin-top: 8px; }
+.btn-secondary:hover { background: #f5f5f0; }
+.step-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 1.5rem; }
+.step { width: 28px; height: 28px; border-radius: 50%; border: 0.5px solid rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #aaa; transition: all 0.2s; }
+.step.active { background: #185FA5; border-color: #185FA5; color: #fff; font-weight: 500; }
+.step.done   { background: #3B6D11; border-color: #3B6D11; color: #fff; }
+.step-line   { flex: 1; max-width: 60px; height: 0.5px; background: rgba(0,0,0,0.15); }
+.step-line.done { background: #3B6D11; }
+.alert { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 1rem; line-height: 1.5; }
+.alert-error   { background: #FCEBEB; color: #A32D2D; border: 0.5px solid #F09595; }
+.alert-success { background: #EAF3DE; color: #27500A; border: 0.5px solid #97C459; }
+.alert-info    { background: #E6F1FB; color: #185FA5; border: 0.5px solid #85B7EB; }
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.result-doc { font-size: 32px; font-weight: 500; color: #185FA5; text-align: center; margin: 1rem 0; }
+.pg-section  { margin-top: 12px; padding: 10px 12px; background: #f9f9f7; border-radius: 8px; }
+.po-row { display: flex; gap: 8px; align-items: center; }
+.po-row input { flex: 1; }
+.tag { font-size: 11px; background: #e8f0fe; color: #185FA5; border-radius: 4px; padding: 2px 6px; }
+#file-input { display: none; }
+@media (max-width: 480px) { .row2, .fin-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>Lançamento de nota fiscal</h1>
+    <p>Envie o XML e responda algumas perguntas — o SAP é preenchido automaticamente.</p>
+  </div>
+
+  <div class="step-row">
+    <div class="step active" id="s1">1</div>
+    <div class="step-line" id="l1"></div>
+    <div class="step" id="s2">2</div>
+    <div class="step-line" id="l2"></div>
+    <div class="step" id="s3">3</div>
+    <div class="step-line" id="l3"></div>
+    <div class="step" id="s4">4</div>
+  </div>
+
+  <div id="alert-area"></div>
+
+  <div id="step-1">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-file-upload"></i> Arquivo da nota fiscal</div>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+        <i class="ti ti-cloud-upload"></i>
+        <p>Clique para selecionar o XML</p>
+        <small>NF-e, CT-e ou NFS-e · arquivo .xml</small>
+      </div>
+      <input type="file" id="file-input" accept=".xml,.cte,.nfe">
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-file-invoice"></i> Pedido(s) de compra SAP</div>
+      <label>Número do pedido (separe por vírgula se houver mais de um)</label>
+      <div class="po-row">
+        <input type="text" id="pedido-pre" placeholder="Ex: 4516145125, 4512459073" oninput="debouncePO()">
+        <span id="po-spin" style="display:none;font-size:12px;color:#888">Buscando...</span>
+      </div>
+      <div id="po-info" style="display:none;margin-top:8px">
+        <div class="alert alert-info" style="margin:0;padding:8px 12px" id="po-label"></div>
+      </div>
+    </div>
+
+    <button type="button" class="btn-primary" id="btn-step1" onclick="goStep2()" disabled>Continuar</button>
+  </div>
+
+  <div id="step-2" style="display:none">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-file-check"></i> Dados extraídos do XML &nbsp;<span class="badge" id="tipo-badge"></span></div>
+      <div class="extracted" id="extracted-data"></div>
+      <div style="margin-top:12px">
+        <label>Nº NF para lançamento <span class="tag">editável se necessário</span></label>
+        <input type="text" id="numero-nf-override" placeholder="Número extraído do XML">
+      </div>
+    </div>
+
+    <div class="card" id="finalidade-card">
+      <div class="card-title"><i class="ti ti-help-circle"></i> Para que é essa compra?</div>
+      <div class="fin-grid">
+        <div class="fin-opt" onclick="selFin(this,'revenda')">
+          <i class="ti ti-shopping-cart"></i>
+          <div><div class="fin-label">Revender ao cliente</div><div class="fin-desc">Mercadoria para estoque e venda</div></div>
+        </div>
+        <div class="fin-opt" onclick="selFin(this,'producao')">
+          <i class="ti ti-tools"></i>
+          <div><div class="fin-label">Usar na produção</div><div class="fin-desc">Matéria-prima ou insumo industrial</div></div>
+        </div>
+        <div class="fin-opt" onclick="selFin(this,'imobilizado_industrial')">
+          <i class="ti ti-tool"></i>
+          <div><div class="fin-label">Máquina / ativo (produção)</div><div class="fin-desc">Ativo fixo ligado à produção</div></div>
+        </div>
+        <div class="fin-opt" onclick="selFin(this,'imobilizado')">
+          <i class="ti ti-building-warehouse"></i>
+          <div><div class="fin-label">Máquina / ativo (administrativo)</div><div class="fin-desc">Ativo fixo de uso administrativo</div></div>
+        </div>
+        <div class="fin-opt" onclick="selFin(this,'consumo_industrial')">
+          <i class="ti ti-package"></i>
+          <div><div class="fin-label">Consumo ligado à produção</div><div class="fin-desc">Material de uso direto na produção</div></div>
+        </div>
+        <div class="fin-opt" onclick="selFin(this,'consumo_geral')">
+          <i class="ti ti-box"></i>
+          <div><div class="fin-label">Uso interno / consumo geral</div><div class="fin-desc">Escritório, limpeza, manutenção</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-credit-card"></i> Pagamento</div>
+      <label>Condição de pagamento (código SAP)</label>
+      <input type="text" id="cond-pgto" placeholder="Ex: NT30, Z030" style="text-transform:uppercase">
+      <div class="pg-section">
+        <label>Número do pedido SAP</label>
+        <input type="text" id="pedido-sap" placeholder="Ex: 4516145125" readonly>
+        
+        <label style="margin-top: 10px;">Tipo de operação</label>
+        <select id="tipo-op" onchange="toggleTextoCartao()">
+          <option value="normal">Normal</option>
+          <option value="compra_site">Compra site</option>
+          <option value="adiantamento">Adiantamento</option>
+          <option value="agenciamento">Agenciamento / Comissão</option>
+          <option value="cartoes">Cartões Corporativos</option>
+          <option value="cte">CTE</option>
+          <option value="conta_fixa">Conta fixa</option>
+        </select>
+
+        <div id="div-texto-cartao" style="display: none; margin-top: 10px;">
+          <label>Texto Histórico (Para o SAP)</label>
+          <input type="text" id="texto-cartao" placeholder="Ex: CARTÃO MC - FULANO - 04/2026" maxlength="50">
+          <small style="color: #888; font-size: 11px;">Máx. 50 caracteres.</small>
+        </div>
+
+      </div>
+    </div>
+
+    <button type="button" class="btn-primary" id="btn-step2" onclick="goStep3()" disabled>Revisar e lançar</button>
+    <button type="button" class="btn-secondary" onclick="goBack(1)">Voltar</button>
+  </div>
+
+  <div id="step-3" style="display:none">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-clipboard-check"></i> Revisão antes de lançar</div>
+      <div class="extracted" id="review-data"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-notes"></i> Informações adicionais (opcional)</div>
+      <label>ID do card Pipefy (se houver)</label>
+      <input type="text" id="card-id" placeholder="Ex: 123456789">
+    </div>
+    <button type="button" class="btn-primary" id="btn-lancar" onclick="lancar()">
+      <i class="ti ti-send" style="vertical-align:-2px;margin-right:6px"></i>Lançar no SAP
+    </button>
+    <button type="button" class="btn-secondary" onclick="goBack(2)">Voltar</button>
+  </div>
+
+  <div id="step-4" style="display:none">
+    <div class="card" id="result-card"></div>
+    <button type="button" class="btn-secondary" onclick="reset()">Lançar outra nota</button>
+  </div>
+</div>
+
+<script>
+const API_URL = window.location.origin;
+let xmlContent = null, xmlData = null, finalidade = null;
+
+const FIXED_TOKEN = "token_seguro_aqui";
+
+function getToken() {
+  if (FIXED_TOKEN) return FIXED_TOKEN;
+  let t = localStorage.getItem('nf_token');
+  if (!t) { t = prompt('Token de acesso (MANUAL_TRIGGER_TOKEN do .env):') || '';
+            if (t) localStorage.setItem('nf_token', t); }
+  return t;
+}
+
+document.getElementById('file-input').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  xmlContent = await f.text();
+  const z = document.getElementById('upload-zone');
+  z.classList.add('has-file');
+  z.innerHTML = `<i class="ti ti-file-check"></i><p>${f.name}</p><small>Carregado — clique para trocar</small>`;
+  checkStep1();
+});
+
+function checkStep1() {
+  document.getElementById('btn-step1').disabled = !xmlContent;
+}
+
+// Controle de exibição do campo de Texto para Cartão
+function toggleTextoCartao() {
+    const tipo = document.getElementById('tipo-op').value;
+    const div = document.getElementById('div-texto-cartao');
+    if (tipo === 'cartoes') {
+        div.style.display = 'block';
+    } else {
+        div.style.display = 'none';
+        document.getElementById('texto-cartao').value = '';
+    }
+}
+
+let _poTimer = null;
+function debouncePO() {
+  clearTimeout(_poTimer);
+  const v = document.getElementById('pedido-pre').value.trim();
+  document.getElementById('pedido-sap').value = v; // Sincroniza o campo readonly da etapa 2
+  if (v.length < 8) { document.getElementById('po-info').style.display='none'; checkStep1(); return; }
+  _poTimer = setTimeout(() => _buscarPO(v), 700);
+}
+
+let _poData = {};
+
+async function _buscarPO(num) {
+  document.getElementById('po-spin').style.display = 'inline';
+  _poData = {};
+  try {
+    const r = await fetch(`${API_URL}/buscar-po/${encodeURIComponent(num)}`, { headers: { Authorization: `Bearer ${getToken()}` } });
+    if (r.ok) {
+      const d = await r.json();
+      _poData = d;
+      if (d.company_code) {
+          let info = `Empresa: ${d.company_code}  ·  Fornecedor: ${d.supplier||'—'} (CNPJ: ${d.cnpj_fornecedor_sap||'Não cadastrado'})`;
+          if (d.payment_terms) info += `  ·  Cond.pgto: ${d.payment_terms}`;
+          if (d.itens_po && d.itens_po.length > 0) {
+              info += `  ·  ${d.itens_po.length} item(s) encontrados no SAP`;
+          }
+
+          document.getElementById('po-label').textContent = info;
+          document.getElementById('po-info').style.display = 'block';
+        }
+    } else { document.getElementById('po-info').style.display='none'; }
+  } catch { document.getElementById('po-info').style.display='none'; }
+  finally { document.getElementById('po-spin').style.display='none'; checkStep1(); }
+}
+
+async function goStep2() {
+  showAlert('info','Lendo o XML...');
+  try {
+    const r = await fetch(`${API_URL}/parse-xml`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ xml: btoa(unescape(encodeURIComponent(xmlContent))) })
+    });
+    if (!r.ok) throw new Error((await r.json()).error || 'Erro ao ler XML');
+    xmlData = await r.json();
+    clearAlert(); renderStep2(); setStep(2);
+  } catch(e) { showAlert('error','Erro ao ler XML: '+e.message); }
+}
+
+function renderStep2() {
+  const tipos = { NFE:['NF-e','badge-nfe'], CTE:['CT-e','badge-cte'], NFSE:['NFS-e','badge-nfse'] };
+  const [lbl,cls] = tipos[xmlData.tipo]||['?',''];
+  document.getElementById('tipo-badge').textContent = lbl;
+  document.getElementById('tipo-badge').className = `badge ${cls}`;
+  
+  const rows = [
+    ['Número', xmlData.numero_nf],
+    ['Data emissão', xmlData.data_emissao_fmt||'—'],
+    ['Valor total', 'R$ '+parseFloat(xmlData.valor_total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+    ['CNPJ emitente', xmlData.cnpj_emitente||'—'],
+    ['UF emitente', xmlData.uf_emitente||'—'],
+  ];
+  if (xmlData.forma_pagamento) rows.push(['Forma Pagto XML', xmlData.forma_pagamento]);
+  if (xmlData.protocolo) rows.push(['Protocolo SEFAZ', xmlData.protocolo]);
+  document.getElementById('extracted-data').innerHTML = rows.map(([k,v])=>
+    `<div class="extracted-row"><span>${k}</span><span>${v}</span></div>`).join('');
+  document.getElementById('numero-nf-override').value = xmlData.numero_nf;
+
+  if (_poData.payment_terms) document.getElementById('cond-pgto').value = _poData.payment_terms;
+  else document.getElementById('cond-pgto').value = '';
+
+  const temPedido = document.getElementById('pedido-pre').value.trim() !== '';
+
+  if (temPedido) {
+      document.getElementById('finalidade-card').style.display = 'none';
+      finalidade = 'auto_sap'; 
+      document.getElementById('btn-step2').disabled = false;
+  } else {
+      document.getElementById('finalidade-card').style.display = 'block';
+      finalidade = null;
+      document.querySelectorAll('.fin-opt').forEach(o=>o.classList.remove('sel'));
+      document.getElementById('btn-step2').disabled = true;
+  }
+
+  document.getElementById('step-2').style.display='block';
+  document.getElementById('step-1').style.display='none';
+}
+
+function selFin(el, val) {
+  document.querySelectorAll('.fin-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel'); finalidade = val;
+  document.getElementById('btn-step2').disabled = false;
+}
+
+function goStep3() {
+  const nfNum = document.getElementById('numero-nf-override').value || xmlData.numero_nf;
+  const selectOp = document.getElementById('tipo-op');
+  const labelOperacao = selectOp.options[selectOp.selectedIndex].text;
+  
+  let labelFinalidade = '—';
+  if (finalidade === 'auto_sap') {
+      if (_poData.itens_po && _poData.itens_po.length > 0) {
+          const taxCodesUnicos = [...new Set(_poData.itens_po.map(i => i.tax_code).filter(Boolean))];
+          if (taxCodesUnicos.length > 0) {
+              labelFinalidade = `Definido pelo Pedido (Tax Code: ${taxCodesUnicos.join(', ')})`;
+          } else {
+              labelFinalidade = '⚠️ Aviso: Pedido sem Tax Code';
+          }
+      } else {
+          labelFinalidade = 'Mapeada via Pedido SAP';
+      }
+  } else {
+      labelFinalidade = finalidade ? String(finalidade).replace(/_/g,' ') : '—';
+  }
+
+  const rows = [
+    ['Tipo', xmlData.tipo],
+    ['Número NF', nfNum],
+    ['Data Emissão', xmlData.data_emissao_fmt||'—'], 
+    ['Valor', 'R$ '+parseFloat(xmlData.valor_total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+    ['Finalidade', labelFinalidade],
+    ['Cond. pgto', document.getElementById('cond-pgto').value||'—'],
+    ['Pedido(s) SAP', document.getElementById('pedido-sap').value||'—'],
+    ['Operação', labelOperacao],
+  ];
+
+  document.getElementById('review-data').innerHTML = rows.map(([k,v])=>
+    `<div class="extracted-row" style="text-transform: capitalize;"><span>${k}</span><span>${v}</span></div>`).join('');
+  document.getElementById('step-3').style.display='block';
+  document.getElementById('step-2').style.display='none';
+  setStep(3);
+}
+
+async function lancar() {
+  const btn = document.getElementById('btn-lancar');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Lançando no SAP...';
+  clearAlert();
+  const payload = {
+    xml:              btoa(unescape(encodeURIComponent(xmlContent))),
+    po_unit:          _poData.unit || '',
+    itens_po:         _poData.itens_po || [],
+    cnpj_fornecedor_sap: _poData.cnpj_fornecedor_sap || '',
+    finalidade_compra:finalidade === 'auto_sap' ? 'consumo_geral' : finalidade, 
+    cond_pagamento:   document.getElementById('cond-pgto').value.toUpperCase(),
+    numero_pedido_sap:document.getElementById('pedido-sap').value,
+    tipo_operacao:    document.getElementById('tipo-op').value, 
+    texto:            document.getElementById('texto-cartao').value,
+    card_id:          document.getElementById('card-id').value||'app',
+    numero_nf_override: document.getElementById('numero-nf-override').value,
+  };
+  try {
+    const r = await fetch(`${API_URL}/lancar`, {
+      method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${getToken()}`},
+      body: JSON.stringify(payload)
+    });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.error||`Erro ${r.status}`);
+    renderSucesso(d);
+  } catch(e) {
+    btn.disabled=false;
+    btn.innerHTML='<i class="ti ti-send" style="vertical-align:-2px;margin-right:6px"></i>Lançar no SAP';
+    showAlert('error','Falha: '+e.message);
+  }
+}
+
+function renderSucesso(d) {
+  setStep(4);
+  ['step-3'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('step-4').style.display='block';
+  const ok = d.posted?'✅ Registrado':'⚠️ Criado — verificar no SAP';
+  document.getElementById('result-card').innerHTML=`
+    <div style="text-align:center;padding:1rem 0">
+      <i class="ti ti-circle-check" style="font-size:48px;color:#3B6D11;display:block;margin-bottom:12px"></i>
+      <div style="font-size:13px;color:#888;margin-bottom:4px">Documento SAP</div>
+      <div class="result-doc">${d.supplier_invoice} / ${d.fiscal_year}</div>
+      <div style="font-size:13px;color:#888;margin-top:8px">${ok}</div>
+    </div>`;
+}
+
+function reset() {
+  xmlContent=null; xmlData=null; finalidade=null;
+  document.getElementById('file-input').value='';
+  document.getElementById('pedido-pre').value='';
+  document.getElementById('po-info').style.display='none';
+  document.querySelectorAll('.fin-opt').forEach(o=>o.classList.remove('sel'));
+  
+  // Limpa os campos extras
+  document.getElementById('cond-pgto').value = '';
+  document.getElementById('numero-nf-override').value = '';
+  document.getElementById('card-id').value = '';
+  document.getElementById('tipo-op').value = 'normal';
+  document.getElementById('texto-cartao').value = '';
+  document.getElementById('div-texto-cartao').style.display = 'none';
+
+  const z=document.getElementById('upload-zone');
+  z.classList.remove('has-file');
+  z.innerHTML='<i class="ti ti-cloud-upload"></i><p>Clique para selecionar o XML</p><small>NF-e, CT-e ou NFS-e · arquivo .xml</small>';
+  
+  // "Descongela" o botão de Lançar da Etapa 3
+  const btn = document.getElementById('btn-lancar');
+  btn.disabled = false;
+  btn.innerHTML = '<i class="ti ti-send" style="vertical-align:-2px;margin-right:6px"></i>Lançar no SAP';
+
+  ['step-2','step-3','step-4'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('step-1').style.display='block';
+  checkStep1(); setStep(1); clearAlert();
+}
+
+function goBack(to) {
+  if (to===1) { document.getElementById('step-2').style.display='none'; document.getElementById('step-1').style.display='block'; setStep(1); }
+  if (to===2) { document.getElementById('step-3').style.display='none'; document.getElementById('step-2').style.display='block'; setStep(2); }
+}
+
+function setStep(n) {
+  for (let i=1;i<=4;i++) {
+    const el=document.getElementById(`s${i}`);
+    if (i<n) { el.className='step done'; el.innerHTML='<i class="ti ti-check" style="font-size:13px"></i>'; }
+    else if (i===n) { el.className='step active'; el.textContent=i; }
+    else { el.className='step'; el.textContent=i; }
+    if (i<4) document.getElementById(`l${i}`).className = i<n?'step-line done':'step-line';
+  }
+}
+function showAlert(t,m) { const c={error:'alert-error',success:'alert-success',info:'alert-info'}; document.getElementById('alert-area').innerHTML=`<div class="alert ${c[t]}">${m}</div>`; }
+function clearAlert() { document.getElementById('alert-area').innerHTML=''; }
+</script>
+</body>
+</html>

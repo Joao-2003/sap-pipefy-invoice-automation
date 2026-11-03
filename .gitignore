@@ -1,0 +1,19 @@
+# Segredos
+.env
+*.env
+!.env.example
+credenciais/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Dados e logs reais (nunca versionar)
+*.xlsx
+*.csv
+*.log
+erros_lancamento.txt
+logs_*/
+testes_ajuste/
