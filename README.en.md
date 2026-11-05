@@ -2,6 +2,8 @@
 
 [🇧🇷 Português](README.md) | 🇺🇸 English
 
+**▶️ [Open the live demo](https://joao-2003.github.io/sap-pipefy-invoice-automation/)**: the invoice posting dashboard and the purchasing monitor with fictitious data, right in the browser.
+
 Integration that automatically posts Brazilian supplier invoices (NF-e, CT-e and NFS-e) to Accounts Payable in **SAP S/4HANA Public Cloud** from **Pipefy** cards, with automatic purchase order matching, self-correction of common failures, tax auditing and **Slack** notifications.
 
 > I built this project at a Brazilian manufacturer, where it runs in production. This repository holds the code structure for portfolio purposes: tax IDs (CNPJ), credentials, environment IDs, document numbers and real names were removed or replaced with fictitious values.

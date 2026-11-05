@@ -2,6 +2,8 @@
 
 🇧🇷 Português | [🇺🇸 English](README.en.md)
 
+**▶️ [Abrir a demonstração](https://joao-2003.github.io/sap-pipefy-invoice-automation/)**: painel de lançamentos e monitor de compras com dados fictícios, direto no navegador.
+
 Integração que lança automaticamente notas fiscais de fornecedores (NF-e, CT-e e NFS-e) no Contas a Pagar do **SAP S/4HANA Public Cloud** a partir de cards do **Pipefy**, com correspondência automática com pedidos de compra, autocorreção de falhas comuns, auditoria fiscal e notificações no **Slack**.
 
 > Projeto desenvolvido por mim em uma indústria brasileira e usado em produção. Este repositório traz a estrutura do código para portfólio: CNPJs, credenciais, IDs de ambiente, números de documentos e nomes reais foram removidos ou trocados por valores fictícios.
